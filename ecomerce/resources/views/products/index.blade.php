@@ -36,7 +36,7 @@
                 ⚡ MyShop
             </div>
             <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tighter italic uppercase">
-                Fadwa <span class="text-blue-500 not-italic">Store</span>
+                My <span class="text-blue-500 not-italic">Shop</span>
             </h1>
             <p class="text-slate-500 text-sm max-w-md mx-auto">
                 Explore next-gen static computing hardware assets with instant high precision filtration modules.
@@ -62,120 +62,44 @@
                     data-category="all"
                     class="category-btn px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 border bg-blue-600 text-white border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
                 >
-                    🕹️ All Catalog
+                    🕹️ All Catalogories 
                 </button>
-                <button
-                    data-category="audio"
-                    class="category-btn px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 border bg-slate-900/40 text-slate-400 border-white/5 hover:border-blue-500/30 hover:text-white"
+            @foreach($categories as $categorie)
+                 <button
+                    data-category="all"
+                    class="category-btn px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 border bg-blue-600 text-white border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)]"
                 >
-                    🎧 Premium Audio
+                {{$categorie->name}}
                 </button>
-                <button
-                    data-category="gaming"
-                    class="category-btn px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 border bg-slate-900/40 text-slate-400 border-white/5 hover:border-blue-500/30 hover:text-white"
-                >
-                    🎮 Gaming Gear
-                </button>
-                <button
-                    data-category="components"
-                    class="category-btn px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 border bg-slate-900/40 text-slate-400 border-white/5 hover:border-blue-500/30 hover:text-white"
-                >
-                    ⚡ Components
-                </button>
-                <button
-                    data-category="screens"
-                    class="category-btn px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 border bg-slate-900/40 text-slate-400 border-white/5 hover:border-blue-500/30 hover:text-white"
-                >
-                    🖥️ Displays
-                </button>
+            @endforeach
             </div>
         </div>
 
         <div id="productsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             
+            @forelse($products as $product)
             <div class="product-card glass-card rounded-[2.5rem] p-6 flex flex-col justify-between group hover:border-blue-500/30 transition-all duration-500" data-name="SONY WH-1000XM5" data-category="audio">
                 <div class="relative w-full aspect-square bg-[#020617] rounded-[2rem] border border-white/5 overflow-hidden flex items-center justify-center p-6 mb-6">
-                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=400" alt="Sony XM5" class="max-w-full max-h-full object-contain rounded-2xl transition-transform duration-700 group-hover:scale-110">
+                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{$product->name}}">
                 </div>
                 <div class="space-y-4">
                     <div class="flex items-center justify-between">
-                        <span class="bg-blue-600/10 text-blue-400 text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-blue-500/10">Premium Audio</span>
+                        <span class="bg-blue-600/10 text-blue-400 text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-blue-500/10">{{$product->name}}</span>
                         <div class="flex text-yellow-500 text-[9px]"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                     </div>
                     <h2 class="text-xl font-black text-white tracking-tight leading-tight uppercase group-hover:text-blue-400 transition-colors duration-300">SONY WH-1000XM5</h2>
-                    <p class="text-slate-500 text-xs line-clamp-2 italic leading-relaxed">The world's best noise cancelling headphones just got better. Pure silence. Pure sound.</p>
+                    <p class="text-slate-500 text-xs line-clamp-2 italic leading-relaxed">{{$product->description}}.</p>
                     <div class="flex items-center justify-between pt-4 border-t border-white/5">
                         <div class="flex flex-col">
-                            <span class="text-white font-black text-xl tracking-tight">3,499 <span class="text-xs text-blue-400">DH</span></span>
-                            <span class="text-[10px] text-slate-500 line-through">4,200 DH</span>
+                            <span class="text-[10px] text-slate-500 line-through">{{$product->price}} DH</span>
                         </div>
                         <button class="bg-blue-600 hover:bg-white hover:text-black text-white font-black px-4 py-2.5 rounded-xl transition-all duration-300 text-xs uppercase tracking-wider">🛒 Buy Now</button>
                     </div>
                 </div>
             </div>
-
-            <div class="product-card glass-card rounded-[2.5rem] p-6 flex flex-col justify-between group hover:border-blue-500/30 transition-all duration-500" data-name="Apex Pro TKL Mechanical Keyboard" data-category="gaming">
-                <div class="relative w-full aspect-square bg-[#020617] rounded-[2rem] border border-white/5 overflow-hidden flex items-center justify-center p-6 mb-6">
-                    <img src="https://images.unsplash.com/photo-1618384887929-16ec33fab9ef?auto=format&fit=crop&q=80&w=400" alt="Keyboard" class="max-w-full max-h-full object-contain rounded-2xl transition-transform duration-700 group-hover:scale-110">
-                </div>
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between">
-                        <span class="bg-blue-600/10 text-blue-400 text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-blue-500/10">Gaming Gear</span>
-                        <div class="flex text-yellow-500 text-[9px]"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    </div>
-                    <h2 class="text-xl font-black text-white tracking-tight leading-tight uppercase group-hover:text-blue-400 transition-colors duration-300">Apex Pro TKL</h2>
-                    <p class="text-slate-500 text-xs line-clamp-2 italic leading-relaxed">OmniPoint 2.0 adjustable switches provide 11x quicker response and 2x durability.</p>
-                    <div class="flex items-center justify-between pt-4 border-t border-white/5">
-                        <div class="flex flex-col">
-                            <span class="text-white font-black text-xl tracking-tight">2,199 <span class="text-xs text-blue-400">DH</span></span>
-                            <span class="text-[10px] text-slate-500 line-through">2,600 DH</span>
-                        </div>
-                        <button class="bg-blue-600 hover:bg-white hover:text-black text-white font-black px-4 py-2.5 rounded-xl transition-all duration-300 text-xs uppercase tracking-wider">🛒 Buy Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card glass-card rounded-[2.5rem] p-6 flex flex-col justify-between group hover:border-blue-500/30 transition-all duration-500" data-name="ASUS ROG Swift 32 OLED Monitor" data-category="screens">
-                <div class="relative w-full aspect-square bg-[#020617] rounded-[2rem] border border-white/5 overflow-hidden flex items-center justify-center p-6 mb-6">
-                    <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&q=80&w=400" alt="Monitor" class="max-w-full max-h-full object-contain rounded-2xl transition-transform duration-700 group-hover:scale-110">
-                </div>
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between">
-                        <span class="bg-blue-600/10 text-blue-400 text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-blue-500/10">Displays</span>
-                        <div class="flex text-yellow-500 text-[9px]"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    </div>
-                    <h2 class="text-xl font-black text-white tracking-tight leading-tight uppercase group-hover:text-blue-400 transition-colors duration-300">ASUS ROG Swift 32"</h2>
-                    <p class="text-slate-500 text-xs line-clamp-2 italic leading-relaxed">Quantum Dot OLED panel delivers unrivaled 240Hz speed and deepest cinematic blacks.</p>
-                    <div class="flex items-center justify-between pt-4 border-t border-white/5">
-                        <div class="flex flex-col">
-                            <span class="text-white font-black text-xl tracking-tight">12,499 <span class="text-xs text-blue-400">DH</span></span>
-                            <span class="text-[10px] text-slate-500 line-through">14,500 DH</span>
-                        </div>
-                        <button class="bg-blue-600 hover:bg-white hover:text-black text-white font-black px-4 py-2.5 rounded-xl transition-all duration-300 text-xs uppercase tracking-wider">🛒 Buy Now</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card glass-card rounded-[2.5rem] p-6 flex flex-col justify-between group hover:border-blue-500/30 transition-all duration-500" data-name="NVIDIA RTX 4090 Founders Edition" data-category="components">
-                <div class="relative w-full aspect-square bg-[#020617] rounded-[2rem] border border-white/5 overflow-hidden flex items-center justify-center p-6 mb-6">
-                    <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&q=80&w=400" alt="RTX 4090" class="max-w-full max-h-full object-contain rounded-2xl transition-transform duration-700 group-hover:scale-110">
-                </div>
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between">
-                        <span class="bg-blue-600/10 text-blue-400 text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-blue-500/10">Components</span>
-                        <div class="flex text-yellow-500 text-[9px]"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                    </div>
-                    <h2 class="text-xl font-black text-white tracking-tight leading-tight uppercase group-hover:text-blue-400 transition-colors duration-300">NVIDIA RTX 4090 FE</h2>
-                    <p class="text-slate-500 text-xs line-clamp-2 italic leading-relaxed">The ultimate GeForce GPU. Powered by ultra-efficient Ada Lovelace architecture and 24GB G6X.</p>
-                    <div class="flex items-center justify-between pt-4 border-t border-white/5">
-                        <div class="flex flex-col">
-                            <span class="text-white font-black text-xl tracking-tight">24,999 <span class="text-xs text-blue-400">DH</span></span>
-                        </div>
-                        <button class="bg-blue-600 hover:bg-white hover:text-black text-white font-black px-4 py-2.5 rounded-xl transition-all duration-300 text-xs uppercase tracking-wider">🛒 Buy Now</button>
-                    </div>
-                </div>
-            </div>
-
+            @empty
+            <h2 class="text-xl font-black text-white tracking-tight leading-tight uppercase group-hover:text-blue-400 transition-colors duration-300">le stock est vide</h2>
+            @endforelse
         </div>
 
         <div id="noProducts" class="hidden text-center py-24 bg-[#0f172a]/20 border border-white/5 rounded-[3rem] backdrop-blur-sm max-w-2xl mx-auto">
@@ -197,7 +121,6 @@
         let currentCategory = 'all';
         let currentSearch = '';
 
-        // Function bach t-filtrer dynamic f l-blasa
         function filterCatalog() {
             let visibleCount = 0;
 
