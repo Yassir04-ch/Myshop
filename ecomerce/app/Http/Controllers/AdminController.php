@@ -33,9 +33,6 @@ class AdminController extends Controller
 
     public function toggleClient(User $user)
     {
-        if ($user->role === 'admin') {
-            return back()->with('error', 'Impossible de modifier un admin');
-        }
 
         $user->update([
             'is_active' => !$user->is_active,

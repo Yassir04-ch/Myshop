@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -20,10 +21,20 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/createPro', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/products/{product}/edit',[AdminController::class, 'editProduct'])->name('products.edit');
+    Route::put('/products/{product}',[AdminController::class, 'updateProduct'])->name('products.update');
+    Route::delete('/products/{product}',[AdminController::class, 'destroyProduct'])->name('products.destroy');
+
     Route::get('/adminpro', function () {return view('admin.products');})->name('productsadmin');
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
-        })->middleware(['auth', 'verified'])->name('dashboard');
+        });
+    Route::get('/clients',[AdminController::class, 'clients'])->name('clients');
+    Route::patch('/clients/{user}/toggle',    [AdminController::class, 'toggleClient'])->name('clients.toggle');
+
+    Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
+    Route::patch('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.status');
+
             
 });
 
