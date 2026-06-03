@@ -21,6 +21,7 @@
             overflow: hidden;
         }
         
+        /* ─── ANIMATIONS & SWEEP EFFECT ─── */
         @keyframes subtle-float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-5px) rotate(0.3deg); }
@@ -29,6 +30,7 @@
             animation: subtle-float 5s ease-in-out infinite;
         }
 
+        /* Laser Sweep Animation travelling horizontally above product details */
         @keyframes laser-sweep {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(250%); }
@@ -44,12 +46,14 @@
 </head>
 <body class="text-slate-300 antialiased font-sans p-6 sm:p-12 relative overflow-x-hidden selection:bg-blue-500/20 selection:text-blue-200">
 
+    <!-- Ambient premium lighting glows behind -->
     <div class="absolute top-[-5%] left-[-5%] w-[700px] h-[700px] bg-blue-600/10 rounded-full blur-[180px] pointer-events-none animate-pulse" style="animation-duration: 9s;"></div>
     <div class="absolute bottom-[15%] right-[-5%] w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[160px] pointer-events-none animate-pulse" style="animation-duration: 14s;"></div>
 
     <div class="max-w-7xl mx-auto space-y-12 relative z-10">
 
-        <header class="text-center space-y-3">
+        <!-- HEADER -->
+        <header class="text-center space-y-4">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/5 border border-blue-500/10 text-blue-400 text-[10px] font-black uppercase tracking-[0.25em] mx-auto shadow-sm transform hover:scale-105 transition-transform duration-300 cursor-pointer">
                 ⚡ MyShop
             </div>
@@ -60,13 +64,22 @@
                 Explore next-gen static computing hardware assets with instant high precision filtration modules.
             </p>
 
-            <div class="flex justify-center mt-4">
+            <div class="flex items-center justify-center gap-3 mt-6">
+                <a href="{{ route('order.my') }}"
+                    class="group relative inline-flex items-center gap-2 bg-slate-900/40 border border-white/5 hover:border-indigo-500/30 text-slate-400 hover:text-white px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider shadow-lg transition-all duration-300 hover:-translate-y-0.5 overflow-hidden">
+                    <span class="absolute inset-0 bg-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <i class="fas fa-box-open text-indigo-400 group-hover:scale-110 transition-transform duration-300"></i>
+                    <span>Voir mes commandes</span>
+                </a>
+
+                <!-- CART BUTTON -->
                 <a href="{{ route('cart.index') }}"
-                    class="inline-flex items-center gap-2 bg-slate-950/40 border border-white/5 hover:border-blue-500/30 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg transition-all duration-300 hover:-translate-y-0.5">
-                    🛒 Panier
+                    class="group inline-flex items-center gap-2 bg-blue-600/10 border border-blue-500/20 hover:border-blue-500/50 hover:bg-blue-600 text-blue-400 hover:text-white px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+                    <i class="fas fa-shopping-cart group-hover:rotate-12 transition-transform duration-300"></i>
+                    <span>Panier</span>
                     @php $cartCount = collect(session('cart', []))->sum('quantity') @endphp
                     @if($cartCount > 0)
-                        <span class="bg-blue-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full animate-bounce">{{ $cartCount }}</span>
+                        <span class="bg-blue-600 group-hover:bg-white text-white group-hover:text-black text-[10px] font-black px-2 py-0.5 rounded-full animate-bounce smooth-transition">{{ $cartCount }}</span>
                     @endif
                 </a>
             </div>
@@ -83,6 +96,7 @@
             </div>
         @endif
 
+        <!-- SEARCH + FILTERS -->
         <div class="space-y-6">
             <div class="max-w-xl mx-auto relative group">
                 <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-700"></div>
@@ -117,6 +131,7 @@
             </div>
         </div>
 
+        <!-- PRODUCTS GRID -->
         <div id="productsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
             @forelse($products as $product)
@@ -124,10 +139,13 @@
                 data-name="{{ strtolower($product->name) }}"
                 data-category="{{ strtolower($product->category->name ?? 'all') }}">
                 
+                <!-- Moving Cyan/Blue Laser sweep across individual product cards -->
                 <div class="absolute top-0 left-0 w-1/2 h-[2px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none animate-sweep"></div>
                 
+                <!-- Inner Neon Back-spotlight behind main container frame -->
                 <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-40 h-40 bg-blue-500/0 group-hover:bg-blue-500/10 rounded-full blur-[60px] pointer-events-none smooth-transition"></div>
 
+                <!-- IMAGE CASE CONTAINER WITH OVERFLOW GLOW UPGRADE -->
                 <div class="relative w-full aspect-square bg-[#090d16] rounded-[2rem] border border-white/5 overflow-hidden flex items-center justify-center p-6 mb-6 group-hover:border-blue-500/20 smooth-transition">
                     <img src="{{ asset('storage/' . $product->image) }}" 
                          alt="{{ $product->name }}" 
@@ -135,6 +153,7 @@
                 </div>
 
                 <div class="space-y-4 relative z-10">
+                    <!-- CATEGORY + STARS -->
                     <div class="flex items-center justify-between">
                         <span class="bg-blue-950 text-blue-400 text-[9px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full border border-blue-500/10 group-hover:bg-blue-600 group-hover:text-white smooth-transition">
                             {{ $product->category->name ?? '—' }}
@@ -148,16 +167,21 @@
                         </div>
                     </div>
 
+                    <!-- NAME -->
                     <h2 class="text-xl font-black text-white tracking-tight leading-tight uppercase group-hover:text-blue-400 transition-colors duration-300">
                         {{ $product->name }}
                     </h2>
 
+                    <!-- DESCRIPTION -->
                     <p class="text-slate-500 text-xs line-clamp-2 italic leading-relaxed group-hover:text-slate-400 transition-colors duration-300">{{ $product->description }}</p>
 
+                    <!-- COMPONENT SEPARATOR LINE WITH OPTIONAL Sweep trigger -->
                     <div class="h-[1px] w-full bg-white/5 relative overflow-hidden mt-2">
+                        <!-- Horizontal Laser strip right inside details divider -->
                         <div class="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent -translate-x-full group-hover:animate-sweep"></div>
                     </div>
 
+                    <!-- PRICE + ADD TO CART -->
                     <div class="flex items-center justify-between pt-2">
                         <span class="text-white font-black text-lg tracking-tight group-hover:text-blue-300 smooth-transition">{{ $product->price }} DH</span>
 
@@ -176,6 +200,7 @@
                         @endif
                     </div>
 
+                    <!-- STOCK BADGE -->
                     <p class="text-[10px] flex items-center gap-1 {{ $product->stock > 0 ? 'text-green-500/90' : 'text-red-400/80' }}">
                         <span class="w-1.5 h-1.5 rounded-full {{ $product->stock > 0 ? 'bg-green-500 animate-ping' : 'bg-red-500' }}"></span>
                         {{ $product->stock > 0 ? 'En stock (' . $product->stock . ')' : 'Rupture de stock' }}
@@ -191,6 +216,7 @@
 
         </div>
 
+        <!-- NO RESULTS -->
         <div id="noProducts" class="hidden text-center py-24 bg-[#0f172a]/20 border border-white/5 rounded-[3rem] backdrop-blur-sm max-w-2xl mx-auto transform transition-all duration-500">
             <div class="text-4xl mb-4 animate-bounce">🛸</div>
             <h3 class="text-lg font-bold text-white uppercase italic">Zero Catalog Matches</h3>

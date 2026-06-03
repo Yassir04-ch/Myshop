@@ -32,7 +32,7 @@
 
         @foreach($items as $item)
         <div class="flex justify-between text-sm">
-            <span class="text-slate-300">{{ $item['name'] }} <span class="text-slate-500">× {{ $item['quantity'] }}</span></span>
+            <span class="text-slate-300">{{ $item['name'] }} <span class="text-slate-500"> {{ $item['quantity'] }}</span></span>
             <span class="text-blue-400 font-black">{{ number_format($item['price'] * $item['quantity'], 2) }} DH</span>
         </div>
         @endforeach
@@ -52,7 +52,7 @@
             <p class="text-xs text-slate-400 uppercase tracking-wider mb-3">Vos informations</p>
             <div class="flex items-center gap-3 text-sm text-slate-300">
                 <span class="text-blue-400">👤</span>
-                <span>{{ auth()->user()->name }}</span>
+                <span>{{ auth()->user()->firstname }}  {{ auth()->user()->lastname }}</span>
             </div>
             <div class="flex items-center gap-3 text-sm text-slate-300">
                 <span class="text-blue-400">✉️</span>
