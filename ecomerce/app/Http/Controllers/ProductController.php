@@ -13,14 +13,26 @@ class ProductController extends Controller
     /**
      * Display list of products
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with('category')->latest()->paginate(10);
-        $categories = Category::all();
-        return view('products.index', compact('products','categories'));
-    }
+        $query = Product::with('category')->latest();
 
-    /**
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('category') && $request->category !== 'all') {
+            $query->whereHas('category', fn($q) =>
+                $q->where('name', $request->category)
+            );
+        }
+
+        $products   = $query->paginate(9)->withQueryString();
+        $categories = Category::all();
+
+        return view('products.index', compact('products', 'categories'));
+    }  
+     /**
      * Show create form
      */
     public function create()
@@ -36,11 +48,11 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $validated = $request->validated();
-
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')
                 ->store('products', 'public');
         }
+        Product::create($validated);
 
         return redirect()->route('products.index')->with('success', 'Product created successfully');
     }

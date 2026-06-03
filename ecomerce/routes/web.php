@@ -39,6 +39,6 @@ Route::get('/checkout',            [OrderController::class, 'checkout'])->name('
 Route::post('/checkout',           [OrderController::class, 'store'])->name('order.store');
 Route::get('/order/success',       [OrderController::class, 'success'])->name('order.success');
 Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('order.my');
-
+ 
 
 require __DIR__.'/auth.php';
