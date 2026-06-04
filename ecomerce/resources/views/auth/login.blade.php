@@ -1,7 +1,6 @@
 <x-guest-layout>
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    {{-- Container l-kbir m3a Split Layout --}}
     <div class="max-w-4xl w-full bg-white rounded-[2rem] shadow-2xl flex flex-col md:flex-row overflow-hidden border border-slate-100 mx-auto">
         
         <div class="md:w-1/3 bg-slate-950 p-10 text-white flex flex-col justify-between relative overflow-hidden shrink-0">

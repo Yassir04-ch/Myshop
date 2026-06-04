@@ -96,7 +96,7 @@
                 </div>
             </a>
 
-            <a href="/order" class="group relative bg-[#111827] border border-slate-800/80 p-8 rounded-[2rem] overflow-hidden hover:border-emerald-500/50 hover:shadow-2xl hover:shadow-emerald-500/5 transition-all duration-500 hover:-translate-y-1.5 flex flex-col justify-between min-h-[280px]">
+            <a href="{{route('orders')}}" class="group relative bg-[#111827] border border-slate-800/80 p-8 rounded-[2rem] overflow-hidden hover:border-emerald-500/50 hover:shadow-2xl hover:shadow-emerald-500/5 transition-all duration-500 hover:-translate-y-1.5 flex flex-col justify-between min-h-[280px]">
                 <div class="absolute -right-6 -bottom-6 text-slate-800/20 group-hover:text-emerald-500/10 transition-all duration-500">
                     <svg class="w-36 h-36" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5A3.375 3.375 0 0010.125 2.25H9.75m0 18.75h-2.125a3.375 3.375 0 01-3.375-3.375V4.625c0-.955.393-1.82 1.034-2.446M21.75 12c0 4.142-3.358 7.5-7.5 7.5a7.5 7.5 0 01-7.5-7.5c0-4.142 3.358-7.5 7.5-7.5a7.5 7.5 0 017.5 7.5z"></path>
