@@ -70,7 +70,7 @@
                 </div>
             </a>
 
-            <a href="/users" class="group relative bg-[#111827] border border-slate-800/80 p-8 rounded-[2rem] overflow-hidden hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-500 hover:-translate-y-1.5 flex flex-col justify-between min-h-[280px]">
+            <a href="{{route('clients')}}" class="group relative bg-[#111827] border border-slate-800/80 p-8 rounded-[2rem] overflow-hidden hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/5 transition-all duration-500 hover:-translate-y-1.5 flex flex-col justify-between min-h-[280px]">
                 <div class="absolute -right-6 -bottom-6 text-slate-800/20 group-hover:text-blue-500/10 transition-all duration-500">
                     <svg class="w-36 h-36" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path>
@@ -84,7 +84,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-2 tracking-tight">Users</h3>
+                    <h3 class="text-xl font-bold text-white mb-2 tracking-tight">Clients</h3>
                     <p class="text-slate-400 text-sm leading-relaxed max-w-[240px]">Gérez les comptes clients et les permissions du staff.</p>
                 </div>
 

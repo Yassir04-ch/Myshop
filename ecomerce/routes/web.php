@@ -17,24 +17,26 @@ Route::middleware('auth')->group(function () {
      Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
         
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::middleware(['auth', 'role:Admin'])->group(function () {
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/createPro', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-    Route::get('/products/{product}/edit',[AdminController::class, 'editProduct'])->name('products.edit');
-    Route::put('/products/{product}',[AdminController::class, 'updateProduct'])->name('products.update');
-    Route::delete('/products/{product}',[AdminController::class, 'destroyProduct'])->name('products.destroy');
+    Route::get('/products/{product}/edit',[ProductController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{product}',[ProductController::class, 'update'])->name('products.update');
+    Route::delete('/products/{product}',[ProductController::class, 'destroy'])->name('products.destroy');
 
-    Route::get('/adminpro', function () {return view('admin.products');})->name('productsadmin');
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-        });
+    Route::get('/adminpro',[AdminController::class,'products'])->name('productsadmin');
+    Route::get('/dashboard',[AdminController::class,'dashboard'])->name('dashboard');
     Route::get('/clients',[AdminController::class, 'clients'])->name('clients');
     Route::patch('/clients/{user}/toggle',    [AdminController::class, 'toggleClient'])->name('clients.toggle');
 
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
     Route::patch('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.status');
 
+    Route::get('/clients',[AdminController::class,'clients'])->name('clients');
+    Route::get('/orderShow',[OrderController::class,'showOrder'])->name('orders.show');
+    Route::put('/activerClient/{user}', [AdminController::class, 'activerClient'])->name('admin.clients.activer');
+    Route::put('/desactiverClient/{user}', [AdminController::class, 'desactiverClient'])->name('admin.clients.desactiver');
             
 });
 

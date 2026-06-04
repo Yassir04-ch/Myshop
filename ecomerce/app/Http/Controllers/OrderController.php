@@ -92,4 +92,10 @@ class OrderController extends Controller
 
         return view('order.my-orders', compact('orders'));
     }
+
+    public function showOrder(Order $order)
+    {
+        $order->load(['user', 'items.product', 'payment']);
+        return view('admin.orders.show', compact('order'));
+    }
 }

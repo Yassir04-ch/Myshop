@@ -54,14 +54,7 @@ class ProductController extends Controller
         }
         Product::create($validated);
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully');
-    }
-
-    public function show(Product $product)
-    {
-        $product->load('category');
-
-        return view('products.show', compact('product'));
+        return redirect()->route('productsadmin')->with('success', 'Product created successfully');
     }
 
    
@@ -69,7 +62,7 @@ class ProductController extends Controller
     {
         $categories = Category::all();
 
-        return view('products.edit', compact('product', 'categories'));
+        return view('products.update', compact('product', 'categories'));
     }
 
    
@@ -96,8 +89,7 @@ class ProductController extends Controller
 
         $product->update($data);
 
-        return redirect()->route('products.index')
-            ->with('success', 'Product updated successfully');
+        return redirect()->route('productsadmin')->with('success', 'Product updated successfully');
     }
 
    
@@ -105,6 +97,6 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully');
+        return redirect()->back()->with('success', 'Product deleted successfully');
     }
 }

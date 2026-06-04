@@ -30,10 +30,10 @@
                     </div>
                     
                     <div class="hidden md:flex items-center gap-6 text-xs font-bold uppercase tracking-wider">
-                        <a href="/dashboard" class="text-slate-400 hover:text-slate-900 transition-colors">Overview</a>
-                        <a href="/products" class="text-indigo-600 border-b-2 border-indigo-600 py-5">Products</a>
-                        <a href="/orders" class="text-slate-400 hover:text-slate-900 transition-colors">Orders</a>
-                        <a href="/users" class="text-slate-400 hover:text-slate-900 transition-colors">Users</a>
+                        <a href="{{route('dashboard')}}" class="text-slate-400 hover:text-slate-900 transition-colors">Overview</a>
+                        <a href="" class="text-indigo-600 border-b-2 border-indigo-600 py-5">Products</a>
+                        <a href="{{route('orders')}}" class="text-slate-400 hover:text-slate-900 transition-colors">Orders</a>
+                        <a href="{{route('clients')}}" class="text-slate-400 hover:text-slate-900 transition-colors">Clients</a>
                     </div>
                 </div>
 
@@ -114,114 +114,77 @@
 
                         <tbody class="divide-y divide-slate-100/70 text-slate-600 font-medium">
                             
-                            <tr class="hover:bg-slate-50/40 transition-colors group">
-                                <td class="p-4 pl-8">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 rounded-2xl border border-slate-100 bg-slate-50 p-1 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
-                                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=80" alt="Item Thumbnail" class="max-w-full max-h-full object-contain rounded-lg transition-transform group-hover:scale-110">
+                            @forelse($products as $product)
+                                <tr class="hover:bg-slate-50/40 transition-colors group">
+                                    <td class="p-4 pl-8">
+                                        <div class="flex items-center gap-4">
+                                            <div class="w-12 h-12 rounded-2xl border border-slate-100 bg-slate-50 p-1 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
+                                                @if($product->image)
+                                                    <img src="{{ asset('storage/' . $product->image) }}" 
+                                                        alt="{{ $product->name }}"
+                                                        class="max-w-full max-h-full object-contain rounded-lg transition-transform group-hover:scale-110">
+                                                @else
+                                                    <span class="text-2xl">📦</span>
+                                                @endif
+                                            </div>
+                                            <div>
+                                                <span class="font-bold text-slate-800 block leading-tight group-hover:text-indigo-600 transition-colors">
+                                                    {{ $product->name }}
+                                                </span>
+                                                <span class="text-[11px] text-slate-400 block mt-0.5 italic line-clamp-1">
+                                                    {{ $product->description ?? '—' }}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span class="font-bold text-slate-800 block leading-tight group-hover:text-indigo-600 transition-colors">SONY WH-1000XM5</span>
-                                            <span class="text-[11px] text-slate-400 block mt-0.5 italic">Premium Silver Headset</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="p-4 font-mono text-xs text-slate-400">#EPR-9041</td>
-                                <td class="p-4">
-                                    <span class="px-2.5 py-0.5 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full border border-blue-100/30">Premium Audio</span>
-                                </td>
-                                <td class="p-4 font-black text-slate-800">3,499 <span class="text-xs text-slate-400 font-semibold">DH</span></td>
-                                <td class="p-4">
-                                    <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> In Stock (42)
-                                    </span>
-                                </td>
-                                <td class="p-4 pr-8 text-right space-x-1 whitespace-nowrap">
-                                    <a href="/products/1/edit" class="inline-flex items-center justify-center w-9 h-9 bg-slate-50 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-all text-xs" title="Edit Item">
-                                        ✏️
-                                    </a>
-                                    <form action="/products/1" method="POST" class="inline-block" onsubmit="return confirm('Are you absolutely sure you want to delete this product listing?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="inline-flex items-center justify-center w-9 h-9 bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 rounded-xl transition-all text-xs" title="Delete Item">
-                                            🗑️
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-
-                            <tr class="hover:bg-slate-50/40 transition-colors group">
-                                <td class="p-4 pl-8">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 rounded-2xl border border-slate-100 bg-slate-50 p-1 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
-                                            <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&q=80&w=80" alt="Item Thumbnail" class="max-w-full max-h-full object-contain rounded-lg transition-transform group-hover:scale-110">
-                                        </div>
-                                        <div>
-                                            <span class="font-bold text-slate-800 block leading-tight group-hover:text-indigo-600 transition-colors">NVIDIA RTX 4090 FE</span>
-                                            <span class="text-[11px] text-slate-400 block mt-0.5 italic">Founders Edition 24GB GDDR6X</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="p-4 font-mono text-xs text-slate-400">#EPR-1029</td>
-                                <td class="p-4">
-                                    <span class="px-2.5 py-0.5 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-full border border-indigo-100/30">Components</span>
-                                </td>
-                                <td class="p-4 font-black text-slate-800">24,999 <span class="text-xs text-slate-400 font-semibold">DH</span></td>
-                                <td class="p-4">
-                                    <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-600">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> Low Stock (2)
-                                    </span>
-                                </td>
-                                <td class="p-4 pr-8 text-right space-x-1 whitespace-nowrap">
-                                    <a href="/products/2/edit" class="inline-flex items-center justify-center w-9 h-9 bg-slate-50 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-all text-xs">✏️</a>
-                                    <form action="/products/2" method="POST" class="inline-block" onsubmit="return confirm('Purge this asset?');">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="inline-flex items-center justify-center w-9 h-9 bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 rounded-xl transition-all text-xs">🗑️</button>
-                                    </form>
-                                </td>
-                            </tr>
-
-                            <tr class="hover:bg-slate-50/40 transition-colors group">
-                                <td class="p-4 pl-8">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 rounded-2xl border border-slate-100 bg-slate-50 p-1 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
-                                            <img src="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&q=80&w=80" alt="Item Thumbnail" class="max-w-full max-h-full object-contain rounded-lg transition-transform group-hover:scale-110">
-                                        </div>
-                                        <div>
-                                            <span class="font-bold text-slate-800 block leading-tight group-hover:text-indigo-600 transition-colors">Logitech G Pro X 2</span>
-                                            <span class="text-[11px] text-slate-400 block mt-0.5 italic">Wireless Esports Gaming Mouse</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="p-4 font-mono text-xs text-slate-400">#EPR-3382</td>
-                                <td class="p-4">
-                                    <span class="px-2.5 py-0.5 bg-purple-50 text-purple-700 text-xs font-semibold rounded-full border border-purple-100/30">Gaming Gear</span>
-                                </td>
-                                <td class="p-4 font-black text-slate-800">1,599 <span class="text-xs text-slate-400 font-semibold">DH</span></td>
-                                <td class="p-4">
-                                    <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> In Stock (89)
-                                    </span>
-                                </td>
-                                <td class="p-4 pr-8 text-right space-x-1 whitespace-nowrap">
-                                    <a href="/products/3/edit" class="inline-flex items-center justify-center w-9 h-9 bg-slate-50 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-all text-xs">✏️</a>
-                                    <form action="/products/3" method="POST" class="inline-block" onsubmit="return confirm('Purge this asset?');">
-                                        @csrf @method('DELETE')
-                                        <button type="submit" class="inline-flex items-center justify-center w-9 h-9 bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 rounded-xl transition-all text-xs">🗑️</button>
-                                    </form>
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td class="p-4 font-mono text-xs text-slate-400">#EPR-{{ str_pad($product->id, 4, '0', STR_PAD_LEFT) }}</td>
+                                    <td class="p-4">
+                                        <span class="px-2.5 py-0.5 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-full border border-indigo-100/30">
+                                            {{ $product->category->name ?? '—' }}
+                                        </span>
+                                    </td>
+                                    <td class="p-4 font-black text-slate-800">
+                                        {{ number_format($product->price, 2) }} <span class="text-xs text-slate-400 font-semibold">DH</span>
+                                    </td>
+                                    <td class="p-4">
+                                        @if($product->stock === 0)
+                                            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-red-500">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Out of Stock
+                                            </span>
+                                        @elseif($product->stock <= 5)
+                                            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-600">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> Low Stock ({{ $product->stock }})
+                                            </span>
+                                        @else
+                                            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> In Stock ({{ $product->stock }})
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="p-4 pr-8 text-right space-x-1 whitespace-nowrap">
+                                        <a href="{{ route('products.edit', $product) }}"
+                                        class="inline-flex items-center justify-center w-9 h-9 bg-slate-50 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-all text-xs">
+                                            ✏️
+                                        </a>
+                                    <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline-block"
+                                            onsubmit="return confirm('Supprimer {{ $product->name }} ?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="inline-flex items-center justify-center w-9 h-9 bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-600 rounded-xl transition-all text-xs">
+                                                🗑️
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="6" class="p-10 text-center text-slate-400 text-sm">Aucun produit trouvé.</td>
+                                </tr>
+                                @endforelse
 
                         </tbody>
                     </table>
-                </div>
-
-                <div class="p-5 border-t border-slate-100 bg-slate-50/50 flex justify-between items-center text-xs font-semibold text-slate-400">
-                    <span>Showing 3 active hardware listings</span>
-                    <div class="flex items-center gap-1">
-                        <button class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 rounded-lg shadow-sm opacity-50 cursor-not-allowed">Previous</button>
-                        <button class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 rounded-lg shadow-sm hover:bg-slate-50">Next</button>
-                    </div>
                 </div>
 
             </div>

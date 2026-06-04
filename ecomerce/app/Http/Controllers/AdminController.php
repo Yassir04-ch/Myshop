@@ -11,38 +11,38 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    // ============================================
-    // DASHBOARD
-    // ============================================
     public function dashboard()
     {
         return view('admin.dashboard', [
             'totalOrders'   => Order::count(),
             'totalProducts' => Product::count(),
-            'totalClients'  => User::where('role', 'client')->count(),
+            'totalClients'  => User::whereHas('role', fn($q) => $q->where('name', 'client'))->count(),
             'recentOrders'  => Order::with(['user', 'payment'])->latest()->take(5)->get(),
         ]);
     }
 
-    // CLIENTS
     public function clients()
     {
-        $clients = User::where('role', 'client')->latest()->get();
+        $clients = User::whereHas('role', fn($q) => $q->where('name', 'client'))
+                    ->latest()
+                    ->get();
         return view('admin.clients', compact('clients'));
     }
 
-    public function toggleClient(User $user)
+      public function activerClient(User $user)
     {
+        $user->update(['is_active' => true]);
 
-        $user->update([
-            'is_active' => !$user->is_active,
-        ]);
-
-        $status = $user->is_active ? 'activé' : 'désactivé';
-        return back()->with('success', "Client {$user->name} {$status}");
+        return back()->with('success',"Client {$user->firstname} activé");
     }
 
-    // PRODUCTS
+    public function desactiverClient(User $user)
+    {
+        $user->update(['is_active' => false]);
+
+        return back()->with('success',"Client {$user->firstname} désactivé");
+    }
+
     public function products()
     {
         $products   = Product::with('category')->latest()->get();
@@ -56,67 +56,6 @@ class AdminController extends Controller
         return view('admin.product-create', compact('categories'));
     }
 
-    public function storeProduct(Request $request)
-    {
-        $data = $request->validate([
-            'name'        => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price'       => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
-
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('products', 'public');
-        }
-
-        Product::create($data);
-
-        return redirect()->route('admin.products')->with('success', 'Produit créé avec succès');
-    }
-
-    public function editProduct(Product $product)
-    {
-        $categories = Category::all();
-        return view('admin.product-edit', compact('product', 'categories'));
-    }
-
-    public function updateProduct(Request $request, Product $product)
-    {
-        $data = $request->validate([
-            'name'        => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price'       => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
-
-        if ($request->hasFile('image')) {
-            if ($product->image && Storage::disk('public')->exists($product->image)) {
-                Storage::disk('public')->delete($product->image);
-            }
-            $data['image'] = $request->file('image')->store('products', 'public');
-        }
-
-        $product->update($data);
-
-        return redirect()->route('admin.products')->with('success', 'Produit mis à jour');
-    }
-
-    public function destroyProduct(Product $product)
-    {
-        if ($product->image && Storage::disk('public')->exists($product->image)) {
-            Storage::disk('public')->delete($product->image);
-        }
-
-        $product->delete();
-
-        return back()->with('success', 'Produit supprimé');
-    }
-
-    // ORDERS
     public function orders()
     {
         $orders = Order::with(['user', 'items.product', 'payment'])->latest()->get();
@@ -133,4 +72,6 @@ class AdminController extends Controller
 
         return back()->with('success', 'Statut mis à jour');
     }
+
+    
 }
