@@ -1,7 +1,7 @@
 services:
   backend:
     build: .
-    container_name: Ecomerce_app
+    container_name: Myshop_a
     ports:
       - "8000:80"
     volumes:
@@ -13,11 +13,11 @@ services:
 
   mysql:
     image: mysql:8.0
-    container_name: Ecomerce_db
+    container_name: Myshop_app
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: Ecomerce
+      MYSQL_DATABASE: Myshop
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
@@ -25,7 +25,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
-    container_name: Ecomerce_ma
+    container_name: Myshop_ma
     environment:
       PMA_HOST: mysql
       PMA_USER: root

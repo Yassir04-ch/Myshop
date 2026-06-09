@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
@@ -25,7 +26,7 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
     Route::get('/products/{product}/edit',[ProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{product}',[ProductController::class, 'update'])->name('products.update');
-    Route::delete('/products/{product}',[ProductController::class, 'destroy'])->name('products.destroy');
+    Route::delete('/products/{product}',[ProductControllgter::class, 'destroy'])->name('products.destroy');
 
     Route::get('/adminpro',[AdminController::class,'products'])->name('productsadmin');
     Route::get('/dashboard',[AdminController::class,'dashboard'])->name('dashboard');
@@ -39,6 +40,12 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/clients',[AdminController::class,'clients'])->name('clients');
     Route::put('/activerClient/{user}', [AdminController::class, 'activerClient'])->name('admin.clients.activer');
     Route::put('/desactiverClient/{user}', [AdminController::class, 'desactiverClient'])->name('admin.clients.desactiver');
+
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::post('/store', [CategoryController::class, 'store'])->name('categories.store');
+    Route::put('/{category}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
             
 });
 
