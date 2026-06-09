@@ -1,49 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <style>
-        body { font-family: Arial, sans-serif; background: #f8fafc; padding: 20px; }
-        .card { background: white; border-radius: 12px; padding: 30px; max-width: 500px; margin: auto; border: 1px solid #e2e8f0; }
-        h2 { color: #4f46e5; }
-        .badge { background: #ecfdf5; color: #059669; padding: 4px 12px; border-radius: 20px; font-size: 13px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-        td { padding: 8px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
-        td:last-child { text-align: right; font-weight: bold; }
-        .btn { display: inline-block; margin-top: 20px; background: #4f46e5; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-size: 14px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouvelle Commande - ElectroPro Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-    <div class="card">
-        <h2>🛒 Nouvelle Commande</h2>
-        <span class="badge">✓ En attente de traitement</span>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans p-4 sm:p-8 min-h-screen flex items-center justify-center">
 
-        <table>
-            <tr>
-                <td>👤 Client</td>
-                <td>{{ $order->user->name }}</td>
-            </tr>
-            <tr>
-                <td>📧 Email</td>
-                <td>{{ $order->user->email }}</td>
-            </tr>
-            <tr>
-                <td>💰 Total</td>
-                <td>{{ number_format($order->total_amount, 2) }} DH</td>
-            </tr>
-            <tr>
-                <td>💳 Paiement</td>
-                <td>{{ $order->payment_method === 'livraison' ? '🚚 Livraison' : '💳 Carte' }}</td>
-            </tr>
-            <tr>
-                <td>📅 Date</td>
-                <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
-            </tr>
-        </table>
+    <div class="bg-white w-full max-w-lg rounded-[2rem] p-6 sm:p-8 shadow-[0_20px_50px_rgba(148,163,184,0.15)] border border-slate-100 relative overflow-hidden group">
+        
+        <div class="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500"></div>
 
-        <a href="{{ url('/orders/'. $order->id) }}" class="btn">
-            Voir la commande →
-        </a>
+        <div class="flex items-center justify-between gap-4 mb-6 pb-5 border-b border-slate-100">
+            <div class="space-y-0.5">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-blue-600 block">Notification</span>
+                <h2 class="text-xl font-black text-slate-900 tracking-tight uppercase">
+                    🛒 Nouvelle commande
+                </h2>
+            </div>
+            <div>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold border border-emerald-200/60 shadow-sm">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    En attente
+                </span>
+            </div>
+        </div>
+
+        <div class="space-y-1">
+            
+            <div class="flex items-center justify-between py-3 px-2 rounded-xl transition-all duration-200 hover:bg-slate-50">
+                <span class="text-slate-500 text-sm font-medium flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
+                        <i class="fas fa-user text-xs"></i>
+                    </div>
+                    Client
+                </span>
+                <span class="text-slate-900 text-sm font-bold">{{ $order->user->name }}</span>
+            </div>
+
+            <div class="flex items-center justify-between py-3 px-2 rounded-xl transition-all duration-200 hover:bg-slate-50">
+                <span class="text-slate-500 text-sm font-medium flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
+                        <i class="fas fa-envelope text-xs"></i>
+                    </div>
+                    Email
+                </span>
+                <span class="text-slate-700 text-sm font-medium truncate max-w-[180px] sm:max-w-none">{{ $order->user->email }}</span>
+            </div>
+
+            <div class="flex items-center justify-between py-3 px-2 rounded-xl transition-all duration-200 hover:bg-slate-50">
+                <span class="text-slate-500 text-sm font-medium flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
+                        <i class="fas fa-calendar-alt text-xs"></i>
+                    </div>
+                    Date
+                </span>
+                <span class="text-slate-600 text-sm font-semibold">{{ $order->created_at }}</span>
+            </div>
+
+            <div class="h-[1px] w-full bg-slate-100 my-3"></div>
+
+            <div class="flex items-center justify-between py-3 px-3 bg-blue-50/40 rounded-xl border border-blue-100/50">
+                <span class="text-slate-700 text-sm font-bold flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-blue-500 flex items-center justify-center text-white shadow-sm">
+                        <i class="fas fa-wallet text-xs"></i>
+                    </div>
+                    Montant Total
+                </span>
+                <span class="text-blue-600 text-xl font-black tracking-tight">
+                    {{ $order->total_amount }} <span class="text-xs font-bold text-blue-500">DH</span>
+                </span>
+            </div>
+
+        </div>
+
+        <div class="mt-6 text-center">
+            <a href="{{ url('/orders/'.$order->id) }}" 
+               class="w-full inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-blue-600 text-white px-6 py-3.5 rounded-xl text-sm font-bold tracking-wide transition-all duration-200 shadow-md hover:shadow-lg hover:shadow-blue-600/10 active:scale-[0.99]">
+               Voir la commande <i class="fas fa-arrow-right text-xs ml-0.5"></i>
+            </a>
+        </div>
+
     </div>
+
 </body>
 </html>

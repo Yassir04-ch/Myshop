@@ -1,12 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Mail\OrderStatusUpdated;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -64,14 +66,17 @@ class AdminController extends Controller
     public function updateOrderStatus(Request $request, Order $order)
     {
         $request->validate([
-            'status' => 'required|in:pending,processing,shipped,delivered,cancelled',
+            'status' => 'required|in:pending,processing,accepted,shipped,delivered,cancelled',
         ]);
 
         $order->update(['status' => $request->status]);
+
+        if ($order->user && $order->user->email) {
+             Mail::to($order->user->email)->send(new OrderStatusUpdated($order));
+        }
         
         if ($order->status ==='accepted')
         {
-
             $order->load('items.product', 'user');
 
             foreach ($order->items as $item) {

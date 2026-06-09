@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
@@ -20,6 +19,7 @@ Route::middleware('auth')->group(function () {
 });
         
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
 Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::get('/createPro', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');

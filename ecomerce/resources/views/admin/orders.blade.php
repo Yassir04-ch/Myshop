@@ -165,6 +165,7 @@
                                         $statusConfig = [
                                             'pending'    => ['bg-amber-50',   'text-amber-600',   'bg-amber-400',   '⏳ Pending'],
                                             'processing' => ['bg-blue-50',    'text-blue-600',    'bg-blue-400',    '⚙️ Processing'],
+                                            'accepted' => ['bg-emerald-50', 'text-emerald-600', 'bg-emerald-400', '✅ Accepted'],
                                             'shipped'    => ['bg-indigo-50',  'text-indigo-600',  'bg-indigo-400',  '📦 Shipped'],
                                             'delivered'  => ['bg-emerald-50', 'text-emerald-600', 'bg-emerald-500', '✅ Delivered'],
                                             'cancelled'  => ['bg-red-50',     'text-red-500',     'bg-red-400',     '❌ Cancelled'],
@@ -189,7 +190,7 @@
                                         @method('PATCH')
                                         <select name="status"
                                             class="text-xs border border-slate-200 rounded-xl px-2 py-1.5 bg-white text-slate-600 font-semibold focus:outline-none focus:border-indigo-400 cursor-pointer">
-                                            @foreach(['pending','processing','shipped','delivered','cancelled'] as $s)
+                                            @foreach(['pending','processing','accepted','shipped','delivered','cancelled'] as $s)
                                                 <option value="{{ $s }}" {{ $order->status === $s ? 'selected' : '' }}>
                                                     {{ ucfirst($s) }}
                                                 </option>
