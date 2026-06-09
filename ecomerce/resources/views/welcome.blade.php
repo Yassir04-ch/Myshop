@@ -33,16 +33,18 @@
 
         <div class="hidden md:flex items-center space-x-8">
             <a href="/" class="text-sm font-medium text-slate-600 hover:text-indigo-600 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 hover:after:w-full after:bg-indigo-600 after:transition-all after:duration-300">Home</a>
+            <a href="/profile" class="text-sm font-medium text-slate-600 hover:text-indigo-600 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 hover:after:w-full after:bg-indigo-600 after:transition-all after:duration-300">profile</a>
             <a href="/products" class="text-sm font-medium text-slate-600 hover:text-indigo-600 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 hover:after:w-full after:bg-indigo-600 after:transition-all after:duration-300">Products</a>
             <a href="/categories" class="text-sm font-medium text-slate-600 hover:text-indigo-600 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 hover:after:w-full after:bg-indigo-600 after:transition-all after:duration-300">Categories</a>
         </div>
 
         <div class="flex items-center gap-4">
             @auth
+              @if(auth()->user()->role->name == "Admin")
                 <a href="/dashboard" class="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
                     Dashboard
                 </a>
-
+               @endif
                 <form method="POST" action="/logout" class="inline">
                     @csrf
                     <button class="text-sm font-medium text-slate-500 hover:text-rose-600 border border-slate-200 hover:border-rose-100 rounded-xl px-4 py-2 transition-all duration-300">

@@ -41,7 +41,7 @@
             </tr>
         </table>
 
-        <a href="{{ url('/orderShow/' . $order->id) }}" class="btn">
+        <a href="{{ url('/orders/'. $order->id) }}" class="btn">
             Voir la commande →
         </a>
     </div>
