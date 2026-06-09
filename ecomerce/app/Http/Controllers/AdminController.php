@@ -1,5 +1,4 @@
 <?php
-// app/Http/Controllers/AdminController.php
 namespace App\Http\Controllers;
 
 use App\Models\Order;
@@ -7,7 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -69,7 +68,23 @@ class AdminController extends Controller
         ]);
 
         $order->update(['status' => $request->status]);
+        
+        if ($order->status ==='accepted')
+        {
 
+            $order->load('items.product', 'user');
+
+            foreach ($order->items as $item) {
+
+                if ($item->product) {
+
+                    $order->user->increment(
+                        'points',
+                        $item->product->reward_points * $item->quantity
+                    );
+                }
+            }
+        }
         return back()->with('success', 'Statut mis à jour');
     }
 

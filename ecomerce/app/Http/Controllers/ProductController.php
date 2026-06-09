@@ -48,13 +48,23 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $validated = $request->validated();
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')
-                ->store('products', 'public');
-        }
-        Product::create($validated);
 
-        return redirect()->route('productsadmin')->with('success', 'Product created successfully');
+        // create product without images
+        $product = Product::create($validated);
+
+        // store multiple images
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+
+                $path = $image->store('products', 'public');
+
+                $product->images()->create([
+                    'image' => $path
+                ]);
+            }
+        }
+
+        return redirect()->route('productsadmin')->with('success', 'Produit créé avec succès');
     }
 
    
@@ -68,28 +78,44 @@ class ProductController extends Controller
    
     public function update(Request $request, Product $product)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'description' => 'nullable|string',
+            'reward_points' => 'required|integer',
+            'cost_points' => 'required|integer',
+
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        $data = $request->all();
+        $product->update([
+            'name' => $validated['name'],
+            'price' => $validated['price'],
+            'stock' => $validated['stock'],
+            'category_id' => $validated['category_id'],
+            'description' => $validated['description'] ?? null,
+            'reward_points' => $validated['reward_points'],
+            'cost_points' => $validated['cost_points'],
+        ]);
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('images')) {
 
-            if ($product->image && Storage::disk('public')->exists($product->image)) {
-                Storage::disk('public')->delete($product->image);
+            foreach ($request->file('images') as $image) {
+
+                $path = $image->store('products', 'public');
+
+                $product->images()->create([
+                    'image' => $path
+                ]);
             }
-            $data['image'] = $request->file('image')->store('products', 'public');
         }
 
-        $product->update($data);
-
-        return redirect()->route('productsadmin')->with('success', 'Product updated successfully');
+        return redirect()
+            ->route('productsadmin')
+            ->with('success', 'Produit modifié avec succès');
     }
 
    
@@ -99,4 +125,6 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Product deleted successfully');
     }
+
+    
 }

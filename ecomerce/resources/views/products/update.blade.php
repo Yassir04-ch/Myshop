@@ -71,6 +71,7 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 
+                        {{-- Name --}}
                         <div class="sm:col-span-2 space-y-2">
                             <label for="name" class="text-[11px] font-black uppercase tracking-wider text-slate-400 block">
                                 Product Name / Title
@@ -84,6 +85,9 @@
                                 class="w-full px-4 py-3 rounded-xl border {{ $errors->has('name') ? 'border-red-400' : 'border-slate-200' }} focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm font-semibold transition-colors bg-slate-50/50"
                                 required
                             />
+                            @error('name')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         {{-- Category --}}
@@ -105,6 +109,9 @@
                                     </option>
                                 @endforeach
                             </select>
+                            @error('category_id')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         {{-- Price --}}
@@ -125,6 +132,53 @@
                                 />
                                 <span class="absolute right-4 text-xs font-bold text-slate-400">DH</span>
                             </div>
+                            @error('price')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Reward Points --}}
+                        <div class="space-y-2">
+                            <label for="reward_points" class="text-[11px] font-black uppercase tracking-wider text-slate-400 block">
+                                Reward Points (Récompense)
+                            </label>
+                            <div class="relative flex items-center">
+                                <input
+                                    type="number"
+                                    id="reward_points"
+                                    name="reward_points"
+                                    value="{{ old('reward_points', $product->reward_points) }}"
+                                    placeholder="100"
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm font-bold transition-colors bg-slate-50/50"
+                                    required
+                                />
+                                <span class="absolute right-4 text-xs font-bold text-slate-400">🎁 pts</span>
+                            </div>
+                            @error('reward_points')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Cost Points --}}
+                        <div class="space-y-2">
+                            <label for="cost_points" class="text-[11px] font-black uppercase tracking-wider text-slate-400 block">
+                                Cost Points (Prix du produit)
+                            </label>
+                            <div class="relative flex items-center">
+                                <input
+                                    type="number"
+                                    id="cost_points"
+                                    name="cost_points"
+                                    value="{{ old('cost_points', $product->cost_points) }}"
+                                    placeholder="100"
+                                    class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm font-bold transition-colors bg-slate-50/50"
+                                    required
+                                />
+                                <span class="absolute right-4 text-xs font-bold text-slate-400">🪙 pts</span>
+                            </div>
+                            @error('cost_points')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         {{-- Stock --}}
@@ -141,38 +195,47 @@
                                 class="w-full px-4 py-3 rounded-xl border {{ $errors->has('stock') ? 'border-red-400' : 'border-slate-200' }} focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm font-semibold transition-colors bg-slate-50/50"
                                 required
                             />
+                            @error('stock')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
-                        {{-- Image --}}
+                        {{-- Images --}}
                         <div class="sm:col-span-2 space-y-2">
                             <label class="text-[11px] font-black uppercase tracking-wider text-slate-400 block">
                                 Product Visual Media
                             </label>
 
-                            @if($product->image)
-                            <div class="flex items-center gap-4 p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                                <img src="{{ asset('storage/' . $product->image) }}"
-                                     alt="{{ $product->name }}"
-                                     class="w-16 h-16 rounded-xl object-cover border border-slate-200 shrink-0">
-                                <div>
-                                    <p class="text-xs font-bold text-slate-700">Image actuelle</p>
-                                    <p class="text-[11px] text-slate-400 mt-0.5">Upload une nouvelle image pour la remplacer</p>
+                            {{-- Existing images --}}
+                            @if($product->images->count())
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-5">
+                                @foreach($product->images as $img)
+                                <div class="relative">
+                                    <img src="{{ asset('storage/'.$img->image) }}"
+                                        class="w-full h-28 object-cover rounded-xl border border-slate-200">
                                 </div>
+                                @endforeach
                             </div>
                             @endif
+
+                            {{-- New images preview --}}
+                            <div id="previewContainer"
+                                class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+                            </div>
 
                             <div class="border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center bg-slate-50/50 hover:bg-slate-50 transition-colors relative group">
                                 <input
                                     type="file"
-                                    id="image"
-                                    name="image"
-                                    accept="image/jpg,image/jpeg,image/png,image/webp"
+                                    id="images"
+                                    name="images[]"
+                                    multiple
+                                    accept="image/*"
                                     class="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
-                                />
+                                >
                                 <div class="space-y-2 pointer-events-none">
                                     <span class="text-2xl block group-hover:scale-110 transition-transform">🖼️</span>
-                                    <p class="text-xs font-bold text-slate-700">Click to upload new image</p>
-                                    <p class="text-[10px] text-slate-400">PNG, JPG or WEBP — max 2MB</p>
+                                    <p class="text-xs font-bold text-slate-700">Ajouter de nouvelles images</p>
+                                    <p class="text-[10px] text-slate-400">PNG, JPG, WEBP — plusieurs images supportées</p>
                                 </div>
                             </div>
                         </div>
@@ -189,6 +252,9 @@
                                 placeholder="Describe features, hardware specs, warranty info..."
                                 class="w-full px-4 py-3 rounded-xl border {{ $errors->has('description') ? 'border-red-400' : 'border-slate-200' }} focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm font-semibold transition-colors bg-slate-50/50 resize-none"
                             >{{ old('description', $product->description) }}</textarea>
+                            @error('description')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                     </div>
@@ -211,6 +277,36 @@
             </div>
         </div>
     </main>
+
+    {{-- ✅ Script hna, qbel </body> -- DOM loaded --}}
+    <script>
+        const imageInput = document.getElementById('images');
+        const previewContainer = document.getElementById('previewContainer');
+
+        imageInput.addEventListener('change', function () {
+
+            previewContainer.innerHTML = '';
+
+            Array.from(this.files).forEach(file => {
+
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    // ✅ createElement bla innerHTML +=
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'w-full h-28 object-cover rounded-xl border border-slate-200';
+                    previewContainer.appendChild(img);
+
+                };
+
+                reader.readAsDataURL(file);
+
+            });
+
+        });
+    </script>
 
 </body>
 </html>

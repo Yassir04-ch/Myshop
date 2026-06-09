@@ -47,11 +47,12 @@
                     
                     <div class="w-px h-6 bg-slate-200"></div>
                     
-                    <div class="flex items-center gap-2 cursor-pointer">
-                        <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-slate-700 text-xs">
-                            AD
-                        </div>
-                    </div>
+                         <a href="/profile" 
+                        title="Mon Profil ({{ auth()->user()->points }} pts)"
+                        class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-slate-900/60 border border-white/5 text-slate-400 hover:text-white hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-0.5 relative group/avatar">
+                            <i class="fas fa-user-circle text-base"></i>
+                            <span class="absolute top-0 right-0 w-2 h-2 rounded-full bg-emerald-500 border border-slate-900"></span>
+                        </a>
                 </div>
 
             </div>
@@ -119,8 +120,8 @@
                                     <td class="p-4 pl-8">
                                         <div class="flex items-center gap-4">
                                             <div class="w-12 h-12 rounded-2xl border border-slate-100 bg-slate-50 p-1 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
-                                                @if($product->image)
-                                                    <img src="{{ asset('storage/' . $product->image) }}" 
+                                                @if($product->images->count() > 0)
+                                                    <img src="{{ asset('storage/' . $product->images->first()->image) }}"
                                                         alt="{{ $product->name }}"
                                                         class="max-w-full max-h-full object-contain rounded-lg transition-transform group-hover:scale-110">
                                                 @else

@@ -12,7 +12,9 @@ class Product extends Model
         'description',
         'price',
         'stock',
-        'image'
+        'image',
+        'reward_points',
+        'cost_points'
     ];
 
     public function category()
@@ -25,5 +27,10 @@ class Product extends Model
         return $this->belongsToMany(Order::class, 'order_items')
             ->withPivot('quantity', 'price')
             ->withTimestamps();
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }
