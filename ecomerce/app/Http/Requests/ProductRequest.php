@@ -30,6 +30,7 @@ class ProductRequest extends FormRequest
             'stock' => 'required|integer',
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
+
         ];
     }
 }

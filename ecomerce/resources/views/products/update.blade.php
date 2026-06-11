@@ -7,6 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #f8fafc; }
+        .img-wrapper .img-overlay {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .img-wrapper:hover .img-overlay {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="text-slate-600 antialiased font-sans bg-[#f8fafc]">
@@ -53,7 +60,7 @@
                 </p>
             </div>
 
-            {{-- Flash success --}}
+            {{-- Flash messages --}}
             @if(session('success'))
             <div class="flex items-center gap-2 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl text-sm text-emerald-700">
                 <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -63,8 +70,18 @@
             </div>
             @endif
 
+            @if(session('error'))
+            <div class="flex items-center gap-2 px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                {{ session('error') }}
+            </div>
+            @endif
+
             <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.01)] border border-slate-100 p-8 sm:p-10">
 
+                {{-- ✅ Main update form --}}
                 <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     @method('PUT')
@@ -208,29 +225,44 @@
 
                             {{-- Existing images --}}
                             @if($product->images->count())
+                            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-2">
+                                Images actuelles — hover pour supprimer
+                            </p>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-5">
                                 @foreach($product->images as $img)
-                                <div class="relative">
+                                <div class="img-wrapper relative rounded-xl overflow-hidden cursor-pointer">
+
                                     <img src="{{ asset('storage/'.$img->image) }}"
-                                        class="w-full h-28 object-cover rounded-xl border border-slate-200">
+                                        class="w-full h-28 object-cover">
+
+                                    {{-- ✅ type="button" -- machi submit + barra men form --}}
+                                    <div class="img-overlay absolute inset-0 bg-black/55 flex items-center justify-center">
+                                        <button
+                                            type="button"
+                                            onclick="deleteImage('{{ route('images.destroy', $img) }}')"
+                                            class="bg-red-500 hover:bg-red-600 text-white text-[10px] font-black px-3 py-1.5 rounded-lg shadow-lg flex items-center gap-1 uppercase tracking-wider transition-colors">
+                                            🗑️ Supprimer
+                                        </button>
+                                    </div>
+
                                 </div>
                                 @endforeach
                             </div>
                             @endif
 
                             {{-- New images preview --}}
-                            <div id="previewContainer"
-                                class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
-                            </div>
+                            <div id="previewContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4"></div>
 
-                            <div class="border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center bg-slate-50/50 hover:bg-slate-50 transition-colors relative group">
+                            {{-- Upload zone --}}
+                            <div class="border-2 border-dashed border-slate-200 rounded-2xl p-6 text-center bg-slate-50/50 hover:bg-slate-50 transition-colors relative group cursor-pointer"
+                                onclick="document.getElementById('images').click()">
                                 <input
                                     type="file"
                                     id="images"
                                     name="images[]"
                                     multiple
                                     accept="image/*"
-                                    class="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10"
+                                    class="hidden"
                                 >
                                 <div class="space-y-2 pointer-events-none">
                                     <span class="text-2xl block group-hover:scale-110 transition-transform">🖼️</span>
@@ -278,33 +310,50 @@
         </div>
     </main>
 
-    {{-- ✅ Script hna, qbel </body> -- DOM loaded --}}
+    {{-- ✅ Hidden delete form -- BARRA men main form --}}
+    <form id="deleteImageForm" method="POST" style="display:none;">
+        @csrf
+        @method('DELETE')
+    </form>
+
     <script>
+        // ✅ Delete image -- JavaScript ysubmit hidden form
+        function deleteImage(url) {
+            if (!confirm('Supprimer cette image définitivement ?')) return;
+            const form = document.getElementById('deleteImageForm');
+            form.action = url;
+            form.submit();
+        }
+
+        // Image preview
         const imageInput = document.getElementById('images');
         const previewContainer = document.getElementById('previewContainer');
 
         imageInput.addEventListener('change', function () {
-
             previewContainer.innerHTML = '';
 
             Array.from(this.files).forEach(file => {
-
                 const reader = new FileReader();
 
                 reader.onload = function (e) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'relative rounded-xl overflow-hidden';
 
-                    // ✅ createElement bla innerHTML +=
                     const img = document.createElement('img');
                     img.src = e.target.result;
-                    img.className = 'w-full h-28 object-cover rounded-xl border border-slate-200';
-                    previewContainer.appendChild(img);
+                    img.className = 'w-full h-28 object-cover border border-indigo-200';
 
+                    const badge = document.createElement('span');
+                    badge.className = 'absolute top-1.5 right-1.5 bg-indigo-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md uppercase';
+                    badge.textContent = 'New';
+
+                    wrapper.appendChild(img);
+                    wrapper.appendChild(badge);
+                    previewContainer.appendChild(wrapper);
                 };
 
                 reader.readAsDataURL(file);
-
             });
-
         });
     </script>
 

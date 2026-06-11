@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\ProductImage;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::with('category')->latest();
+        $query = Product::with(['category', 'images'])->latest();
 
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
@@ -45,27 +46,20 @@ class ProductController extends Controller
     /**
      * Store product
      */
-    public function store(ProductRequest $request)
+   public function store(ProductRequest $request)
     {
-        $validated = $request->validated();
+        $product = Product::create($request->safe()->except('images'));
 
-        // create product without images
-        $product = Product::create($validated);
-
-        // store multiple images
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-
                 $path = $image->store('products', 'public');
-
-                $product->images()->create([
-                    'image' => $path
-                ]);
+                $product->images()->create(['image' => $path]);
             }
         }
 
         return redirect()->route('productsadmin')->with('success', 'Produit créé avec succès');
     }
+
 
    
     public function edit(Product $product)
@@ -126,5 +120,12 @@ class ProductController extends Controller
         return redirect()->back()->with('success', 'Product deleted successfully');
     }
 
+
+    public function destroyImage(ProductImage $image)
+    {
+        Storage::disk('public')->delete($image->image);
+        $image->delete();
+        return back()->with('success', 'Image supprimée ✓');
+    }
     
 }

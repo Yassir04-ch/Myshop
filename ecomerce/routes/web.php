@@ -22,48 +22,58 @@ Route::middleware('auth')->group(function () {
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 Route::middleware(['auth', 'role:Admin'])->group(function () {
+
+    // Products
     Route::get('/createPro', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-    Route::get('/products/{product}/edit',[ProductController::class, 'edit'])->name('products.edit');
-    Route::put('/products/{product}',[ProductController::class, 'update'])->name('products.update');
-    Route::delete('/products/{product}',[ProductControllgter::class, 'destroy'])->name('products.destroy');
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-    Route::get('/adminpro',[AdminController::class,'products'])->name('productsadmin');
-    Route::get('/dashboard',[AdminController::class,'dashboard'])->name('dashboard');
-    Route::get('/clients',[AdminController::class, 'clients'])->name('clients');
-    Route::patch('/clients/{user}/toggle',    [AdminController::class, 'toggleClient'])->name('clients.toggle');
+    // ✅ Images -- qbel categories bach machi conflict
+    Route::delete('/images/{image}', [ProductController::class, 'destroyImage'])->name('images.destroy');
 
+    // Categories -- b prefix sahi
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::put('/categories/{category}', [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
+    // Admin
+    Route::get('/adminpro', [AdminController::class, 'products'])->name('productsadmin');
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+    // Clients
+    Route::get('/clients', [AdminController::class, 'clients'])->name('clients');
+    Route::patch('/clients/{user}/toggle', [AdminController::class, 'toggleClient'])->name('clients.toggle');
+    Route::put('/activerClient/{user}', [AdminController::class, 'activerClient'])->name('admin.clients.activer');
+    Route::put('/desactiverClient/{user}', [AdminController::class, 'desactiverClient'])->name('admin.clients.desactiver');
+
+    // Orders
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
     Route::patch('/orders/{order}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.status');
     Route::get('/orders/{order}', [OrderController::class, 'showOrder'])->name('orders.show');
 
-    Route::get('/clients',[AdminController::class,'clients'])->name('clients');
-    Route::put('/activerClient/{user}', [AdminController::class, 'activerClient'])->name('admin.clients.activer');
-    Route::put('/desactiverClient/{user}', [AdminController::class, 'desactiverClient'])->name('admin.clients.desactiver');
-
-    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-    Route::post('/store', [CategoryController::class, 'store'])->name('categories.store');
-    Route::put('/{category}', [CategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-
-            
 });
 
 
 Route::middleware(['auth', 'role:Client'])->group(function () {
 
-    Route::get('/cart',[CartController::class, 'index'])->name('cart.index');
-    Route::post('/cart/{product}',     [CartController::class, 'add'])->name('cart.add');
-    Route::patch('/cart/{productId}',  [CartController::class, 'update'])->name('cart.update');
+    // Cart
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/{product}', [CartController::class, 'add'])->name('cart.add');
+    Route::patch('/cart/{productId}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{productId}', [CartController::class, 'remove'])->name('cart.remove');
+
+    // Orders
+    Route::get('/checkout', [OrderController::class, 'checkout'])->name('order.checkout');
+    Route::post('/checkout', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order/success', [OrderController::class, 'success'])->name('order.success');
+    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('order.my');
+
+    // Points
     Route::post('/product/{id}/buy-points', [OrderController::class, 'buyWithPoints'])->name('product.buy.points');
 
-
-    Route::get('/checkout',[OrderController::class, 'checkout'])->name('order.checkout');
-    Route::post('/checkout',[OrderController::class, 'store'])->name('order.store');
-    Route::get('/order/success',[OrderController::class, 'success'])->name('order.success');
-    Route::get('/my-orders', [OrderController::class, 'myOrders'])->name('order.my');
- 
 });
 
 

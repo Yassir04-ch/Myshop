@@ -20,7 +20,6 @@
             -webkit-box-orient: vertical;  
             overflow: hidden;
         }
-        
         @keyframes subtle-float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-6px) rotate(0.5deg); }
@@ -28,7 +27,6 @@
         .animate-float {
             animation: subtle-float 6s ease-in-out infinite;
         }
-
         @keyframes laser-sweep {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(250%); }
@@ -36,7 +34,6 @@
         .animate-sweep {
             animation: laser-sweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
-        
         .smooth-transition {
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -73,15 +70,15 @@
             </a>
 
             @if(auth()->check())
-                <a href="/profile" 
-                title="Mon Profil ({{ auth()->user()->points }} pts)"
-                class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-slate-900/60 border border-white/5 text-slate-400 hover:text-white hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-0.5 relative group/avatar">
+                <a href="/profile"
+                    title="Mon Profil ({{ auth()->user()->points }} pts)"
+                    class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-slate-900/60 border border-white/5 text-slate-400 hover:text-white hover:border-blue-500/30 transition-all duration-300 hover:-translate-y-0.5 relative group/avatar">
                     <i class="fas fa-user-circle text-base"></i>
                     <span class="absolute top-0 right-0 w-2 h-2 rounded-full bg-emerald-500 border border-slate-900"></span>
                 </a>
             @else
                 <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 bg-slate-900/40 border border-white/5 hover:border-blue-500/30 text-slate-300 hover:text-white px-3 py-2 rounded-xl text-xs font-bold transition-all duration-300 hover:-translate-y-0.5">
-                    <i class="fas fa-sign-in-alt text-blue-400 text-[11px]"></i> 
+                    <i class="fas fa-sign-in-alt text-blue-400 text-[11px]"></i>
                     <span>Se connecter</span>
                 </a>
             @endif
@@ -128,23 +125,24 @@
                             class="w-full py-3.5 bg-transparent border-none text-white text-xs focus:outline-none placeholder-slate-600"
                         />
                     </div>
-                </form> 
+                </form>
             </div>
 
             <div class="flex flex-wrap items-center justify-center gap-2.5 pt-1" id="categoryFilters">
-                <a href="{{ route('products.index') }}" data-category="all" class="category-btn px-4 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all duration-300 border bg-slate-900/40 text-slate-400 border-white/5 hover:border-blue-500/20 hover:text-white">
+                <a href="{{ route('products.index') }}" data-category="all"
+                    class="category-btn px-4 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all duration-300 border bg-slate-900/40 text-slate-400 border-white/5 hover:border-blue-500/20 hover:text-white">
                     🕹️ Tous les produits
                 </a>
                 @foreach($categories as $categorie)
                 <a href="{{ route('products.index', ['category' => strtolower($categorie->name), 'search' => request('search')]) }}"
                     data-category="{{ strtolower($categorie->name) }}"
                     class="category-btn px-4 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all duration-300 border
-                    {{ request('category') === strtolower($categorie->name) 
-                        ? 'bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-600/10' 
+                    {{ request('category') === strtolower($categorie->name)
+                        ? 'bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-600/10'
                         : 'bg-slate-900/40 text-slate-400 border-white/5 hover:border-blue-500/20 hover:text-white' }}">
                     {{ $categorie->name }}
                 </a>
-                @endforeach 
+                @endforeach
             </div>
         </div>
 
@@ -156,15 +154,14 @@
                 data-category="{{ strtolower($product->category->name ?? 'all') }}"
                 onclick="openModal({{ $product->id }})"
             >
-                
                 <div class="absolute top-0 left-0 w-1/2 h-[1px] bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none animate-sweep"></div>
                 <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-40 h-40 bg-blue-500/0 group-hover:bg-blue-500/5 rounded-full blur-[50px] pointer-events-none smooth-transition"></div>
 
                 <div>
                     <div class="relative w-full aspect-square bg-slate-950/60 rounded-2xl border border-white/5 overflow-hidden flex items-center justify-center p-6 mb-4 group-hover:border-blue-500/10 smooth-transition">
                         @if($product->images->count())
-                            <img src="{{ asset('storage/'.$product->images->first()->image) }}" 
-                                 alt="{{ $product->name }}" 
+                            <img src="{{ asset('storage/'.$product->images->first()->image) }}"
+                                 alt="{{ $product->name }}"
                                  class="object-contain w-full h-full transform group-hover:scale-105 smooth-transition animate-float">
                         @else
                             <span class="text-slate-500 text-xs">Aucune Image</span>
@@ -177,11 +174,7 @@
                                 {{ $product->category->name ?? 'Composant' }}
                             </span>
                             <div class="flex text-amber-400 text-[9px] gap-0.5">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                             </div>
                         </div>
 
@@ -194,7 +187,7 @@
                         </p>
 
                         <div class="h-[1px] w-full bg-white/5 relative overflow-hidden my-2">
-                             <div class="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/30 to-transparent -translate-x-full group-hover:animate-sweep"></div>
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/30 to-transparent -translate-x-full group-hover:animate-sweep"></div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-2 text-[10px] font-bold uppercase tracking-wide bg-slate-950/40 p-2 rounded-xl border border-white/5">
@@ -214,7 +207,6 @@
                             <span class="text-slate-500 text-[10px] uppercase font-bold tracking-wider">Prix Standard</span>
                             <span class="text-white font-black text-base tracking-tight group-hover:text-blue-300 smooth-transition">{{ number_format($product->price, 2) }} DH</span>
                         </div>
-
                         <div class="flex items-center gap-1.5 text-[10px] font-bold {{ $product->stock > 0 ? 'text-emerald-400' : 'text-rose-400' }}">
                             <span class="w-1.5 h-1.5 rounded-full {{ $product->stock > 0 ? 'bg-emerald-500 animate-ping' : 'bg-rose-500' }}"></span>
                             <span>{{ $product->stock > 0 ? 'En Stock (' . $product->stock . ')' : 'Rupture' }}</span>
@@ -227,21 +219,19 @@
                                 @csrf
                                 <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}"
                                     class="w-12 bg-slate-950 text-white text-center rounded-xl py-2 text-xs font-bold border border-white/10 focus:border-blue-500 focus:outline-none">
-
                                 <button type="submit" class="flex-1 bg-blue-600 hover:bg-white hover:text-slate-950 text-white font-bold py-2 rounded-xl text-xs transition-all flex items-center justify-center gap-1">
                                     <i class="fas fa-basket-shopping text-[10px]"></i> Ajouter au Panier
                                 </button>
                             </form>
-                          
+
                             <form action="{{ route('product.buy.points', $product->id) }}" method="POST">
                                 @csrf
                                 <button type="submit"
-                                @if(!auth()->check() || auth()->user()->points < $product->cost_points) disabled @endif 
-                                class="w-full font-bold py-2 rounded-xl text-xs transition-all flex items-center justify-center gap-1 border
-                                {{!auth()->check() || auth()->user()->points < $product->cost_points
-                                    ? 'bg-slate-900 border-white/5 text-slate-500 cursor-not-allowed'
-                                    : 'bg-indigo-600/10 border-indigo-500/20 hover:bg-indigo-600 text-indigo-400 hover:text-white' }}
-                                ">
+                                    @if(!auth()->check() || auth()->user()->points < $product->cost_points) disabled @endif
+                                    class="w-full font-bold py-2 rounded-xl text-xs transition-all flex items-center justify-center gap-1 border
+                                    {{ !auth()->check() || auth()->user()->points < $product->cost_points
+                                        ? 'bg-slate-900 border-white/5 text-slate-500 cursor-not-allowed'
+                                        : 'bg-indigo-600/10 border-indigo-500/20 hover:bg-indigo-600 text-indigo-400 hover:text-white' }}">
                                     <i class="fas fa-crown text-[10px]"></i> Échanger avec des Points
                                 </button>
                             </form>
@@ -252,14 +242,12 @@
                         </div>
                     @endif
                 </div>
-
             </div>
             @empty
             <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center py-16 bg-slate-900/20 border border-white/5 rounded-3xl">
                 <h2 class="text-sm font-bold text-slate-500 uppercase tracking-widest">Le catalogue de produits est vide</h2>
             </div>
             @endforelse
-
         </div>
 
         <div id="noProducts" class="hidden text-center py-16 bg-slate-900/30 border border-white/5 rounded-[2rem] max-w-md mx-auto">
@@ -271,9 +259,9 @@
         </div>
 
     </div>
-    
+
     <div class="flex justify-center mt-12 mb-4">
-         {{ $products->links() }}
+        {{ $products->links() }}
     </div>
 
     <div id="modal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-md transition-all duration-300">
@@ -286,41 +274,39 @@
     </div>
 
     <script>
-        const products = @json($products);
+        // ✅ Fix: .items() bach images tji included
+        const products = @json($products->items());
 
-        function openModal(id){
-            const product = products.data
-                ? products.data.find(p => p.id == id)
-                : products.find(p => p.id == id);
-
-            if(!product) return;
+        function openModal(id) {
+            // ✅ Fix: array direct -- machi pagination wrapper
+            const product = products.find(p => p.id == id);
+            if (!product) return;
 
             let images = product.images || [];
             let mainImages = '';
             let thumbs = '';
 
-            if(images.length){
-                images.forEach((img, i)=>{
+            if (images.length) {
+                images.forEach((img, i) => {
                     mainImages += `
                         <img src="/storage/${img.image}"
-                             class="main-img hidden w-full h-80 object-contain bg-slate-950/60 rounded-2xl transition-all duration-500"
+                             class="main-img ${i === 0 ? '' : 'hidden'} w-full h-80 object-contain bg-slate-950/60 rounded-2xl transition-all duration-500"
                              data-index="${i}">
                     `;
-
                     thumbs += `
                         <img src="/storage/${img.image}"
                              onclick="showImage(${i})"
-                             class="w-16 h-16 object-cover rounded-xl border border-white/10 cursor-pointer hover:border-blue-500 smooth-transition bg-slate-950/40 p-1">
+                             class="thumb-img w-16 h-16 object-cover rounded-xl border cursor-pointer smooth-transition bg-slate-950/40 p-1 ${i === 0 ? 'border-blue-500' : 'border-white/10 hover:border-blue-500'}">
                     `;
                 });
             } else {
-                mainImages = `<div class="text-slate-500 text-xs h-8 flex items-center justify-center">Aucune image disponible</div>`;
+                mainImages = `<div class="text-slate-500 text-xs h-80 flex items-center justify-center">Aucune image disponible</div>`;
             }
 
             document.getElementById('modalContent').innerHTML = `
                 <div class="grid md:grid-cols-2 gap-8 pt-4">
                     <div>
-                        <div class="bg-slate-950/40 border border-white/5 rounded-3xl p-4 mb-4 flex items-center justify-center relative overflow-hidden group">
+                        <div class="bg-slate-950/40 border border-white/5 rounded-3xl p-4 mb-4 flex items-center justify-center relative overflow-hidden">
                             <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-40 h-40 bg-blue-500/10 rounded-full blur-[40px] pointer-events-none"></div>
                             ${mainImages}
                         </div>
@@ -349,7 +335,6 @@
                                     ${Number(product.price).toFixed(2)} <span class="text-sm font-normal">DH</span>
                                 </span>
                             </div>
-
                             <div class="grid grid-cols-3 gap-2 pt-2 border-t border-white/5 text-[11px] font-bold uppercase">
                                 <div class="bg-slate-950/60 p-2.5 rounded-xl border border-white/5 text-center">
                                     <span class="text-slate-500 block text-[9px] mb-0.5">Stock</span>
@@ -370,34 +355,41 @@
             `;
 
             document.getElementById('modal').classList.remove('hidden');
-            showImage(0);
         }
 
-        function closeModal(){
+        function closeModal() {
             document.getElementById('modal').classList.add('hidden');
         }
 
-        function showImage(index){
+        function showImage(index) {
             document.querySelectorAll('.main-img').forEach(img => img.classList.add('hidden'));
+            document.querySelectorAll('.thumb-img').forEach(img => img.classList.remove('border-blue-500'));
             const active = document.querySelector(`.main-img[data-index="${index}"]`);
-            if(active) active.classList.remove('hidden');
+            if (active) active.classList.remove('hidden');
+            const thumbs = document.querySelectorAll('.thumb-img');
+            if (thumbs[index]) thumbs[index].classList.add('border-blue-500');
         }
 
-        // Live Filtration logic (preserving old code features)
+        // Close on backdrop click
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Live Filtration
         const searchInput = document.getElementById('searchInput');
         const categoryButtons = document.querySelectorAll('.category-btn');
         const productCards = document.querySelectorAll('.product-card');
         const noProductsMessage = document.getElementById('noProducts');
 
-        let currentCategory = 'all';
-        let currentSearch = '';
+        let currentCategory = '{{ request("category", "all") }}';
+        let currentSearch = '{{ request("search", "") }}';
 
         function filterCatalog() {
             let visibleCount = 0;
             productCards.forEach(card => {
                 const name = card.getAttribute('data-name').toLowerCase();
                 const category = card.getAttribute('data-category').toLowerCase();
-                const matchesSearch = name.includes(currentSearch);
+                const matchesSearch = name.includes(currentSearch.toLowerCase());
                 const matchesCategory = currentCategory === 'all' || category === currentCategory;
 
                 if (matchesSearch && matchesCategory) {
@@ -408,28 +400,23 @@
                 }
             });
 
-            if (visibleCount === 0) {
-                noProductsMessage.classList.remove('hidden');
-            } else {
-                noProductsMessage.classList.add('hidden');
-            }
+            noProductsMessage.classList.toggle('hidden', visibleCount > 0);
         }
 
         searchInput.addEventListener('input', (e) => {
-            currentSearch = e.target.value.toLowerCase();
+            currentSearch = e.target.value;
             filterCatalog();
         });
 
         categoryButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const targetCat = btn.getAttribute('data-category');
-                if(!targetCat) return; 
-                
+                if (!targetCat) return;
+
                 e.preventDefault();
                 categoryButtons.forEach(b => {
                     b.className = "category-btn px-4 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all duration-300 border bg-slate-900/40 text-slate-400 border-white/5 hover:border-blue-500/20 hover:text-white";
                 });
-
                 btn.className = "category-btn px-4 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all duration-300 border bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-600/10";
 
                 currentCategory = targetCat.toLowerCase();

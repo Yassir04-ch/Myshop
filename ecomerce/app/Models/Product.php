@@ -12,7 +12,6 @@ class Product extends Model
         'description',
         'price',
         'stock',
-        'image',
         'reward_points',
         'cost_points'
     ];
