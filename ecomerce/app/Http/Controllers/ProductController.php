@@ -14,6 +14,11 @@ class ProductController extends Controller
     /**
      * Display list of products
      */
+    public function home(){
+        $products = Product::with(['category', 'images'])->get();
+        return view('welcome',compact('products'));
+    }
+
     public function index(Request $request)
     {
         $query = Product::with(['category', 'images'])->latest();

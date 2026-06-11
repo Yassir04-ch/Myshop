@@ -135,6 +135,7 @@ class OrderController extends Controller
         // create order
         $order = Order::create([
             'user_id' => $user->id,
+            'payment_method' => 'points',
             'total_amount' => 0,
             'status' => 'processing',
         ]);

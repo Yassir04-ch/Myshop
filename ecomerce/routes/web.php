@@ -7,9 +7,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 
-Route::get('/', function () {
-    return view('welcome');
-});    
+Route::get('/',[ProductController::class, 'home']);  
     
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.edit');
@@ -30,7 +28,6 @@ Route::middleware(['auth', 'role:Admin'])->group(function () {
     Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-    // ✅ Images -- qbel categories bach machi conflict
     Route::delete('/images/{image}', [ProductController::class, 'destroyImage'])->name('images.destroy');
 
     // Categories -- b prefix sahi

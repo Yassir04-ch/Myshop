@@ -24,7 +24,8 @@
                     </div>
                     <div class="hidden md:flex items-center gap-6 text-xs font-bold uppercase tracking-wider">
                         <a href="/dashboard" class="text-slate-400 hover:text-slate-900 transition-colors">Overview</a>
-                        <a href="{{ route('products.index') }}" class="text-slate-400 hover:text-slate-900 transition-colors">Products</a>
+                        <a href="{{ route('productsadmin') }}" class="text-slate-400 hover:text-slate-900 transition-colors">Products</a>
+                        <a href="{{route('categories.index')}}" class="text-slate-400 hover:text-slate-900 transition-colors">Categories</a>
                         <a href="{{ route('orders') }}" class="text-indigo-600 border-b-2 border-indigo-600 py-5">Orders</a>
                         <a href="{{ route('clients') }}" class="text-slate-400 hover:text-slate-900 transition-colors">Users</a>
                     </div>
